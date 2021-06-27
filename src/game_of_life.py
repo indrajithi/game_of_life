@@ -3,6 +3,7 @@ from grid import Grid
 class GameOfLife(Grid):
     def __init__(self):
       Grid.__init__(self)
+      # self.matrix = self.glider()
       self.matrix = self.random_matrix()
 
     def get_neighbors(self, row, col):
@@ -52,6 +53,8 @@ def main():
       game.next_generation()
   except KeyboardInterrupt:
     pass # end game
+  finally:
+    game.teardown()
   
 if __name__ == "__main__":
   main()
