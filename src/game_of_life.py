@@ -3,7 +3,8 @@ from grid import Grid
 class GameOfLife(Grid):
     def __init__(self):
       Grid.__init__(self)
-      
+      self.matrix = self.random_matrix()
+
     def get_neighbors(self, row, col):
       neighbors = [(row - 1, col -1), (row - 1, col), (row - 1, col + 1),
                     (row, col - 1), (row, col + 1),
@@ -25,7 +26,6 @@ class GameOfLife(Grid):
     def reproduction(self, neighborhood):
       births = []
       for life in neighborhood:
-        a = self.get_alive_neighbors(life)
         if len(self.get_alive_neighbors(life)) == 3:
          births.append(life)
       return births
@@ -42,13 +42,16 @@ class GameOfLife(Grid):
           _matrix.append(life)
         
       _matrix += self.reproduction(neighborhood)
-      self.set_matrix(_matrix)
+      self.matrix = list(set(_matrix))
 
 def main():
   game = GameOfLife()
-  for i in range(12):
-    game.draw_matrix()
-    game.next_generation()
+  try:
+    while True:
+      game.draw_matrix()
+      game.next_generation()
+  except KeyboardInterrupt:
+    pass # end game
   
 if __name__ == "__main__":
   main()

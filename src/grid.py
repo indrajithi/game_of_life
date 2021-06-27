@@ -1,13 +1,16 @@
 import subprocess
 import curses
+import random
 
 class Grid:
-  _rows, _columns = map(int, subprocess.check_output(['stty', 'size']).split())
-
   def __init__(self):
-    self._marker = u"\u2584"
-    self.matrix = self.glider()
-    self.delay = 500
+    self._marker = u"\u2022"
+    self.delay = 100
+    self.screen = curses.initscr()
+    self.set_screen_dimensions()
+  
+  def set_screen_dimensions(self):
+    self._rows, self._columns = map(int, subprocess.check_output(['stty', 'size']).split())
     
   def is_cord_positive(self, cord):
       return cord[0] >= 0 and cord[1] >= 0
@@ -18,26 +21,19 @@ class Grid:
   def is_life_in_grid(self, cord):
     return self.is_cord_positive(cord) and self.is_below_last_cord(cord)
   
-  def set_matrix(self, matrix):
-      self.matrix = [life for life in matrix if self.is_life_in_grid(life)]
-
   def draw_matrix(self):
-    curses.wrapper(self.run)
-  
-  def setup(self, stdscr):
-    curses.noecho()
-    curses.cbreak()
     curses.curs_set(0)
-    stdscr.clear()
-    stdscr.border(0)
-    
-  def run(self, stdscr):
-    self.stdscr = stdscr
-    self.setup(stdscr)
-    self.draw(stdscr)
-    stdscr.refresh()
+    self.screen.erase()
+    self.draw()
     curses.napms(self.delay)
+    self.screen.refresh()
   
+  def random_matrix(self):
+    _matrix = []
+    for _ in range(random.randint(500, 1000)):
+      _matrix.append((random.randint(0, self._rows - 1), random.randint(0, self._columns - 1)))
+    return list(set(_matrix))
+     
   def glider(self):
     middle_row = int(self._rows/2)
     middle_column = int(self._columns/2)
@@ -46,9 +42,16 @@ class Grid:
             (middle_row + 1, middle_column + 1),
             (middle_row + 2, middle_column - 1), (middle_row + 2, middle_column), (middle_row + 2, middle_column + 1)]
   
-  def draw(self, stdscr):
+  def draw(self):
     for coordinate in self.matrix:
-      stdscr.addstr(coordinate[0], coordinate[1], self._marker)
+      if self.is_life_in_grid(coordinate):
+        if(curses.is_term_resized(self._rows, self._columns)):
+          self.set_screen_dimensions()
+        try:
+          self.screen.addstr(coordinate[0], coordinate[1], self._marker)
+        except:
+          print(coordinate, self._rows, self._columns)
+
 
 if __name__ == "__main__":
   grid = Grid()
