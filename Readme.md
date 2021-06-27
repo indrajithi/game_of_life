@@ -10,6 +10,6 @@
 
 ## Improvements
 
-- [] Add pause play and accept mouse input and allow user to make a cell alive or dead
-- [] Handle complexity when the matrix size increases
-- [] Avoid checking life of a cell multiple times
+- [ ] Add pause play and accept mouse input and allow user to make a cell alive or dead
+- [ ] Handle complexity when the matrix size increases
+- [ ] Avoid checking life of a cell multiple times
