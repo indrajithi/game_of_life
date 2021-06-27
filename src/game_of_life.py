@@ -3,17 +3,6 @@ from grid import Grid
 class GameOfLife(Grid):
     def __init__(self):
       Grid.__init__(self)
-      self.matrix = self.glider()
-      
-    def is_cord_positive(self, cord):
-      return cord[0] >= 0 and cord[1] >= 0
-    
-    def is_below_last_cord(self, cord):
-      return cord[0] < self._rows and cord[1] < self._columns
-         
-    def is_life_in_grid(self, cord):
-      return self.is_cord_positive(cord) and self.is_below_last_cord(cord)
-    
       
     def get_neighbors(self, row, col):
       neighbors = [(row - 1, col -1), (row - 1, col), (row - 1, col + 1),
@@ -22,9 +11,6 @@ class GameOfLife(Grid):
 
 
       return neighbors
-    
-    def set_matrix_in_grid(self, matrix):
-      self.matrix = [life for life in matrix if self.is_life_in_grid(life)]
     
     def get_alive_neighbors(self, life):
       return [n for n in self.get_neighbors(*life) if n in self.matrix]
@@ -56,13 +42,13 @@ class GameOfLife(Grid):
           _matrix.append(life)
         
       _matrix += self.reproduction(neighborhood)
-      self.set_matrix_in_grid(_matrix)
-      
+      self.set_matrix(_matrix)
 
-
-game = GameOfLife()
-# game.run()
-print(game.next_generation())
-game.run(game.setup)
-game.draw(game.matrix)
-game.display(3000)
+def main():
+  game = GameOfLife()
+  for i in range(12):
+    game.draw_matrix()
+    game.next_generation()
+  
+if __name__ == "__main__":
+  main()
