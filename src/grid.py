@@ -67,4 +67,4 @@ class Grid:
         try:
           self.screen.addstr(coordinate[0], coordinate[1], self._marker)
         except:
-          raise(Exception(str('Insert error on:' + [self._rows, self._columns, coordinate])))
+          raise(Exception('Insert error on:' + str([self._rows, self._columns, coordinate])))
