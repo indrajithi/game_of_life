@@ -1,6 +1,6 @@
-from grid import Grid
+from game.grid import Grid
 
-class GameOfLife(Grid):
+class Life(Grid):
     def __init__(self):
       Grid.__init__(self)
       # self.matrix = self.glider()
@@ -41,12 +41,11 @@ class GameOfLife(Grid):
         
         if self.is_alive(life, alive_neighbors):
           _matrix.append(life)
-        
       _matrix += self.reproduction(neighborhood)
       self.matrix = list(set(_matrix))
 
 def main():
-  game = GameOfLife()
+  game = Life()
   try:
     while True:
       game.draw_matrix()
