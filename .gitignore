@@ -1,0 +1,12 @@
+*.*pyc
+*.pyo
+__pycache__
+*venv*
+.gitignore
+game.egg-info/top_level.txt
+game.egg-info/SOURCES.txt
+game.egg-info/PKG-INFO
+.coverage
+game.egg-info/dependency_links.txt
+dist/game-0.0.0-py3.9.egg
+build/

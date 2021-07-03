@@ -6,7 +6,11 @@
 
 ## How to run
 
-`python src/game_of_life.py`
+`pip install -r requirements.txt`
+
+`python setup.py install`
+
+`python src/life.py`
 
 ## Improvements
 
